@@ -7,8 +7,8 @@ backend: #http://backend-podinfo:9898/echo
 backends: []
 
 image:
-  repository: ghcr.io/stefanprodan/podinfo
-  tag: 6.2.0
+  repository: europe-west2-docker.pkg.dev/hsbck8s/scr/autoauction
+  tag: 3
   pullPolicy: IfNotPresent
 
 ui:
