@@ -1,0 +1,125 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: sas-scr-{{ .Values.name }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: sas-scr-{{ .Values.name }}
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: sas-scr-{{ .Values.name }}
+  template:
+    metadata:
+      labels:
+        app: sas-scr-{{ .Values.name }}
+    spec:
+      serviceAccount: sas-scr
+      serviceAccountName: sas-scr
+      containers:
+        - name: sas-scr-{{ .Values.name }}
+          image: {{ .Values.image }}
+          env:
+          - name: SAS_SCR_APP_PATH
+            value: {{ .Values.name }}
+          lifecycle:
+            preStop:
+              exec:
+                command: ["/bin/sh","-c","sleep 30"]
+          resources:
+            requests:
+              memory: "320Mi"
+              cpu: "50m"
+            limits:
+              memory: "5000Mi"
+              cpu: "4000m"
+          startupProbe:
+            httpGet:
+              path: /internal/ready
+              port: 8080
+              scheme: HTTP
+            periodSeconds: 10
+            failureThreshold: 60
+          livenessProbe:
+            httpGet:
+              path: /internal/live
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 30
+            timeoutSeconds: 5
+            periodSeconds: 10
+            successThreshold: 1
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /internal/ready
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 30
+            timeoutSeconds: 5
+            periodSeconds: 10
+            successThreshold: 1
+            failureThreshold: 3
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              add: []
+              drop:
+              - ALL
+            privileged: false
+            readOnlyRootFilesystem: true
+            runAsGroup: 1001
+            runAsUser: 1001
+          volumeMounts:
+            - mountPath: /tmp
+              name: tmp
+      tolerations:
+      - effect: NoSchedule
+        key: workload.sas.com/class
+        operator: Equal
+        value: scr      
+      affinity:
+        nodeAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - preference:
+              matchExpressions:
+              - key: workload.sas.com/class
+                operator: In
+                values:
+                - scr
+              matchFields: []
+            weight: 100
+          - preference:
+              matchExpressions:
+              - key: workload.sas.com/class
+                operator: NotIn
+                values:
+                - compute
+                - cas
+                - stateful
+                - connect
+                - mas
+              matchFields: []
+            weight: 50
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: kubernetes.azure.com/mode
+                operator: NotIn
+                values:
+                - system
+              - key: cloud.google.com/gke-nodepool
+                operator: NotIn
+                values:
+                - default
+              matchFields: []
+      volumes:
+        - emptyDir: {}
+          name: tmp
+      terminationGracePeriodSeconds: 60      

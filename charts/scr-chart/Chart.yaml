@@ -1,0 +1,12 @@
+apiVersion: v1
+name: scr1-deployment
+version: 1.0.5
+description: The Universal Deployment Helm Chart
+keywords:
+  - scr1
+  - helm
+sources:
+  - https://github.com/alessio4tech/git4scrhelm.git
+maintainers:
+  - name: Alessio Tomasino
+    email: alessio.tomasino@sas.com
