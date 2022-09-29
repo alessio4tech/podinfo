@@ -8,7 +8,7 @@ metadata:
     component: scr-new-label
     newlabel: testing
 spec:
-  replicas: 1
+  replicas: 2
   strategy:
     type: RollingUpdate
     rollingUpdate:
@@ -21,6 +21,7 @@ spec:
     metadata:
       labels:
         app: sas-scr-{{ .Values.name }}
+        component: test-scr
     spec:
       serviceAccount: sas-scr
       serviceAccountName: sas-scr
