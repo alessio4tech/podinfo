@@ -5,7 +5,7 @@ metadata:
   namespace: {{ .Values.namespace }}
   labels:
     app: sas-scr-{{ .Values.name }}
-    component: scr
+    component: scr-new-label
 spec:
   replicas: 1
   strategy:
