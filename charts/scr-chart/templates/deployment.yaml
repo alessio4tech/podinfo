@@ -29,6 +29,8 @@ spec:
           env:
           - name: SAS_SCR_APP_PATH
             value: {{ .Values.name }}
+          - name: TEST
+            value: "myvalue"
           lifecycle:
             preStop:
               exec:
