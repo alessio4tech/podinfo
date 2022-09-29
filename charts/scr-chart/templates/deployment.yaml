@@ -6,7 +6,7 @@ metadata:
   labels:
     app: sas-scr-{{ .Values.name }}
     component: scr-new-label
-    newlabel: test
+    newlabel: testing
 spec:
   replicas: 1
   strategy:
