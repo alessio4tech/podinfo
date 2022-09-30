@@ -1,4 +1,4 @@
 # Default values for a "deployment"
 
-loadbalancer_fqdn: "uat-test.unx.sas.com"
+loadbalancer_fqdn: "uat.unx.sas.com"
 namespace: "scr-uat"
