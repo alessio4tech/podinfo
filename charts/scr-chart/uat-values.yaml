@@ -1,0 +1,9 @@
+# Default values for a "deployment"
+
+# REQUIRED for you to set a value here, name of your service
+name: "scr1-test-update"
+
+image: "eu.gcr.io/hsbck8s/scr/dummy_branch_testing1_0:5"
+
+loadbalancer_fqdn: "uat.unx.sas.com"
+namespace: "default"
