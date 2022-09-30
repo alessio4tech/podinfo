@@ -1,0 +1,2 @@
+# empty --- values name/image are injected into the helmrelease 
+# use the environment specific values file to inject common environment variables
