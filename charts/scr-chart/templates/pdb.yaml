@@ -1,0 +1,12 @@
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: sas-scr-{{ .Values.name }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: sas-scr-{{ .Values.name }}  
+spec:
+  maxUnavailable: 1
+  selector:
+    matchLabels:
+      app: sas-scr-{{ .Values.name }}
