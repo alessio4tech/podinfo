@@ -33,7 +33,7 @@ spec:
                 command: ["/bin/sh","-c","sleep 30"]
           resources:
             requests:
-              memory: "320Mi"
+              memory: "500Mi"
               cpu: "50m"
             limits:
               memory: "5000Mi"
