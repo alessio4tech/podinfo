@@ -1,0 +1,4 @@
+# Default values for a "deployment"
+
+loadbalancer_fqdn: "prod.unx.sas.com"
+namespace: "scr-prod"
