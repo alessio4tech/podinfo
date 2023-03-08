@@ -76,6 +76,8 @@ spec:
             runAsGroup: 1001
             runAsUser: 1001
           volumeMounts:
+            - mountPath: /opt/tmp
+              name: tmp
             - mountPath: /tmp
               name: tmp
       tolerations:
